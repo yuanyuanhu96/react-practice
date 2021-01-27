@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- ************ Read this************ This practice create VDOM, in the VDOM read fake data to generate content, and use JSX syntax to set properties like style. Finally I use react to render this VDOM to the window. -->
+
+    <!-- a container for a react conponent -->
+    <h1 id="test-line"></h1>
+
+    <!-- introduce react library -->
+    <script
+      type="text/javascript"
+      src="./assets/js/react.development.js"
+    ></script>
+
+    <script
+      type="text/javascript"
+      src="./assets/js/react-dom.development.js"
+    ></script>
+
+    <script type="text/javascript" src="./assets/js/babel.min.js"></script>
+
+    <!-- write jsx, which will be traslated by babel -->
+    <script type="text/babel">
+      // make some fake data
+      const myName = ['Jack', 'Anna'];
+      const myData = ['No.1', 'No.2'];
+      const myColor = ['green', 'red'];
+
+      //Const a VDOM using JSX, and use JSX to create elements
+      const VDOM = React.createElement(
+        'div',
+        { id: 'mainDiv' },
+        //One div componets contains 2 elemenst
+        // use JSX set Style property, use $ get data from variable
+        React.createElement(
+          'h2',
+          { style: { color: myColor[0] } },
+          `${myName[0]} you are ${myData[0]}`
+        ),
+        React.createElement(
+          'h3',
+          { style: { color: myColor[1] } },
+          `${myName[1]} you are ${myData[1]}`
+        )
+      );
+
+      // Render VDOM to page
+      ReactDOM.render(VDOM, document.getElementById('test-line'));
+    </script>
+  </body>
+</html>
