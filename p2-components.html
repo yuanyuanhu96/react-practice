@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="test"></div>
+    <div id="test2"></div>
+    <div id="test3"></div>
+
+    <script
+      type="text/javascript"
+      src="./assets/js/react.development.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="./assets/js/react-dom.development.js"
+    ></script>
+    <script type="text/javascript" src="./assets/js/babel.min.js"></script>
+
+    <!-- ********Cautious: if the type is not babel, will be syntax error -->
+    <!-- ********Cautious: order of item and index makes sense -->
+    <script type="text/babel">
+      // const an static VDOM
+      const data = ['Orange', 'Banana', 'Egg'];
+      const VDOM = (
+        <div>
+          <h1>1. This is an static dom</h1>
+          <ul>
+            {data.map((item, index) => {
+              return <li key={index}>{item}</li>;
+            })}
+          </ul>
+        </div>
+      );
+      ReactDOM.render(VDOM, document.getElementById('test'));
+
+      // const an react component use class
+
+      class FirstComponent extends React.Component {
+        constructor() {
+          super();
+        }
+
+        render() {
+          return <h1>2. This is a class compoment</h1>;
+        }
+      }
+
+      ReactDOM.render(<FirstComponent />, document.getElementById('test2'));
+
+      // const an react component use function
+
+      function SecondComponent(props) {
+        return <h1>2. This is a function compoment</h1>;
+      }
+
+      ReactDOM.render(<SecondComponent />, document.getElementById('test3'));
+    </script>
+  </body>
+</html>
