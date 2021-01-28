@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Property</title>
+  </head>
+  <body>
+    <div id="test1"></div>
+    <div id="test2"></div>
+    <div id="test3"></div>
+    <div id="test4"></div>
+    <div id="test5"></div>
+
+    <script
+      type="text/javascript"
+      src="./assets/js/react.development.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="./assets/js/react-dom.development.js"
+    ></script>
+    <script type="text/javascript" src="./assets/js/babel.min.js"></script>
+
+    <!-- introduce property type library -->
+    <script type="text/javascript" src="./assets/js/prop-types.js"></script>
+
+    <!-- use "static" inside the class to limite data type of a property -->
+    <script type="text/babel">
+      class Apartment extends React.Component {
+        render() {
+          const { name, price, rate } = this.props;
+
+          return (
+            <ul>
+              <li>{name}</li>
+              <li>{price}</li>
+              <li>{rate}</li>
+            </ul>
+          );
+        }
+
+        static propTypes = {
+          name: PropTypes.string,
+          price: PropTypes.number,
+          rate: PropTypes.number,
+        };
+        static defaultProps = {
+          name: 'No Name',
+          price: 0,
+          rate: 0,
+        };
+      }
+
+      ReactDOM.render(
+        <Apartment name="Park Michigan" price={1200} rate={4} />,
+        document.getElementById('test1')
+      );
+
+      ReactDOM.render(
+        <Apartment name="Presidential Tower" price={1000} rate={2} />,
+        document.getElementById('test2')
+      );
+
+      // make property a seprate object :p, and then open that in conponent tag
+      const p = { name: 'IIT Dom', price: 1800, rate: 1 };
+      ReactDOM.render(<Apartment {...p} />, document.getElementById('test3'));
+
+      // Test a component when it is missing properties
+      const p1 = { price: 800 };
+      ReactDOM.render(<Apartment {...p1} />, document.getElementById('test4'));
+    </script>
+
+    <!-- Components defined by a function can also do property type check -->
+    <script type="text/babel">
+      function SimpleApt(props) {
+        const { name, price, rate } = props;
+
+        return (
+          <ul>
+            <li>{name}</li>
+            <li>{price}</li>
+            <li>{rate}</li>
+          </ul>
+        );
+      }
+
+      SimpleApt.propTypes = {
+        name: PropTypes.string.isRequired,
+        price: PropTypes.number,
+        rate: PropTypes.number,
+      };
+
+      ReactDOM.render(
+        <SimpleApt name="Scholar Dom" price={800} rate={5} />,
+        document.getElementById('test5')
+      );
+    </script>
+  </body>
+</html>
