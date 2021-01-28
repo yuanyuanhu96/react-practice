@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="test"></div>
+    <div id="test2"></div>
+
+    <script
+      type="text/javascript"
+      src="./assets/js/react.development.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="./assets/js/react-dom.development.js"
+    ></script>
+    <script type="text/javascript" src="./assets/js/babel.min.js"></script>
+
+    <!-- The first example shows the constructor -->
+    <script type="text/babel">
+      class MyComponent extends React.Component {
+        // Use constructor to set the initial state, and bind "this" to the call back
+        constructor(props) {
+          super(props);
+          this.changeState = this.changeState.bind(this);
+          this.state = { isRight: true, grade: 50 };
+        }
+
+        // Add event using "onCLick", but no () after function name
+        render() {
+          const { isRight, grade } = this.state;
+          return (
+            <div>
+              <h1>How was my last exam?</h1>
+              <div onClick={this.changeState}>
+                You are {isRight ? 'right' : 'wrong'}, you got{' '}
+                {isRight ? grade + 50 : grade - 50}！
+              </div>
+            </div>
+          );
+        }
+
+        // When clicking, change the state. Then update state using "setState"
+        changeState() {
+          let isRight = this.state.isRight;
+          this.setState({ isRight: !isRight });
+
+          //Question: why these two stats are different?
+          // console.log(this);
+          // console.log(this.state);
+        }
+      }
+
+      ReactDOM.render(<MyComponent />, document.getElementById('test'));
+    </script>
+
+    <!-- The second example shows a simple way without constructor -->
+
+    <script type="text/babel">
+      class BetterComponent extends React.Component {
+        state = { isExpensive: true, isUseful: true };
+        render() {
+          const { isExpensive, isUseful } = this.state;
+
+          return (
+            <div onClick={this.randomState}>
+              <h1> What does this idea look like: </h1>
+              <div>{isExpensive ? 'it is expensive' : 'it is cheap'}</div>
+              <div>{isExpensive == isUseful ? 'but' : 'and'}</div>
+              <div>{isUseful ? 'it is useful' : 'it is useless'}</div>
+            </div>
+          );
+        }
+
+        randomState = () => {
+          const { isExpensive, isUseful } = this.state;
+          this.setState({ isExpensive: !isExpensive });
+          this.setState({ isUseful: !isUseful });
+        };
+      }
+
+      ReactDOM.render(<BetterComponent />, document.getElementById('test2'));
+    </script>
+  </body>
+</html>
