@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>uncontrolled component & controlled component</title>
+  </head>
+  <body>
+    <h3>Uncontrolled component:</h3>
+    <div id="test"></div>
+
+    <br />
+    <br />
+
+    <br />
+    <h3>Controlled component:</h3>
+
+    <div id="test2"></div>
+
+    <script
+      type="text/javascript"
+      src="assets/js/react.development.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="assets/js/react-dom.development.js"
+    ></script>
+    <script type="text/javascript" src="assets/js/babel.min.js"></script>
+    <script type="text/babel">
+      // Type one: this is an uncontrolled component
+      class Login extends React.Component {
+        handleSubmit = (event) => {
+          event.preventDefault(); //prevent form submit
+          const { username, password } = this;
+          alert(
+            `Your username is ${username.value}, You password is ${password.value}`
+          );
+        };
+
+        render() {
+          return (
+            <div>
+              <form onSubmit={this.handleSubmit}>
+                <input
+                  ref={(c) => {
+                    this.username = c;
+                  }}
+                  type="text"
+                />
+                <br /> <br />
+                <input
+                  ref={(c) => {
+                    this.password = c;
+                  }}
+                  type="password"
+                />{' '}
+                <br /> <br />
+                <input type="submit" />
+              </form>
+            </div>
+          );
+        }
+      }
+
+      // Type one: this is an controlled component
+      // Controlled means controlled by React, save data in states and get data from states GOOD!
+
+      class NewLogin extends React.Component {
+        saveUsername = (event) => {
+          this.setState({ username: event.target.value });
+          console.log(this.state);
+        };
+
+        savePassword = (event) => {
+          this.setState({ password: event.target.value });
+          console.log(this.state);
+        };
+
+        handleSubmit = (event) => {
+          const { username, password } = this.state;
+          alert(`Your username is ${username}, You password is ${password}`);
+        };
+
+        render() {
+          return (
+            <div>
+              <form onSubmit={this.handleSubmit}>
+                <input onChange={this.saveUsername} type="text" />
+                <br /> <br />
+                <input
+                  onChange={this.savePassword}
+                  type="password"
+                /> <br /> <br />
+                <input type="submit" />
+              </form>
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(<Login />, document.getElementById('test'));
+      ReactDOM.render(<NewLogin />, document.getElementById('test2'));
+    </script>
+  </body>
+</html>
