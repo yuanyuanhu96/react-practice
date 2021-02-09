@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="demo"></div>
+
+    <br />
+    <br />
+
+    <div id="demo2"></div>
+
+    <script
+      type="text/javascript"
+      src="assets/js/react.development.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="assets/js/react-dom.development.js"
+    ></script>
+    <script type="text/javascript" src="assets/js/babel.min.js"></script>
+    <script type="text/babel">
+      class Survey extends React.Component {
+        // save some data outside the states, not recommended
+        result = 0;
+        result2 = 0;
+
+        //this is a callback when botton been clicked
+        handleClick = () => {
+          const { birthYear, schoolAge } = this.refs;
+          const { primaryAge } = this;
+          this.result = Number(birthYear.value) + Number(schoolAge.value);
+          this.result2 = Number(birthYear.value) + Number(primaryAge.value);
+          //I re-render the page by my self, but if I use states, React will automatically do that
+          ReactDOM.render(<Survey />, document.getElementById('demo'));
+        };
+
+        render() {
+          return (
+            // Type 1: use string as ref (1-2)
+            // Type 2: use callback as ref, they are similar
+
+            <div>
+              <h3>1. In which year did you born?</h3>
+              <input ref="birthYear" type="text" />
+
+              <h3>2. In what age did you attend college?</h3>
+              <input ref="schoolAge" type="text" />
+
+              <div> I guess you went to college in {this.result}</div>
+
+              <h3>3. In what age did you attend primary school?</h3>
+              <input
+                ref={(primaryAge) => (this.primaryAge = primaryAge)}
+                type="text"
+              />
+
+              <div> I guess you went to primary school in {this.result2}</div>
+
+              <input
+                type="button"
+                onClick={this.handleClick}
+                value="click me!"
+              />
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(<Survey />, document.getElementById('demo'));
+
+      // Type 3: Following Example use React.createRef() to create refs
+      // why do we need current.value? is means of React saved multiple values?
+      class Blur extends React.Component {
+        onlyBox = React.createRef();
+
+        handleOnBlur = () => {
+          alert(this.onlyBox.current.value);
+        };
+
+        render() {
+          return (
+            <input
+              type="text"
+              placeholder="click elsewhere after input"
+              ref={this.onlyBox}
+              onBlur={this.handleOnBlur}
+            />
+          );
+        }
+      }
+      ReactDOM.render(<Blur />, document.getElementById('demo2'));
+    </script>
+  </body>
+</html>
