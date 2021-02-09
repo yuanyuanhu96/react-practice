@@ -32,7 +32,8 @@
           timeList.push(this.state.currentTime);
           idList.push(idList.length + 1);
 
-          // create  historyItem from time and index
+          //create  historyItem from time and index
+          //should we store historyItem inside the state? or just the data point?
           const historyItem = timeList.map((time, index) => (
             <li key={index}>
               No.{index + 1}: {time} seconds
