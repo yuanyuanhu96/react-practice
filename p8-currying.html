@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="test"></div>
+    <script
+      type="text/javascript"
+      src="assets/js/react.development.js"
+    ></script>
+
+    <script
+      type="text/javascript"
+      src="assets/js/react-dom.development.js"
+    ></script>
+
+    <script type="text/javascript" src="assets/js/babel.min.js"></script>
+
+    <script type="text/babel">
+      class Demo extends React.Component {
+        saveFormData = (dataType) => {
+          // Concept of bind is not clears
+          return (event) => {
+            this.setState({ [dataType]: event.target.value });
+          };
+        };
+
+        handleSubmit = (event) => {
+          event.preventDefault();
+          const { appleAmount, orangeAmount } = this.state;
+
+          const total = Number(appleAmount) + Number(orangeAmount);
+          alert(
+            `apple:${appleAmount}, orange:${orangeAmount}, total: ${total}`
+          );
+        };
+
+        render() {
+          return (
+            <form onSubmit={this.handleSubmit}>
+              <input
+                onChange={this.saveFormData('appleAmount')}
+                type="text"
+                placeholder="how many apple?"
+                name="apple"
+              />
+              <input
+                onChange={this.saveFormData('orangeAmount')}
+                type="text"
+                placeholder="how many orange?"
+                name="orange"
+              />
+              <input type="submit" value="add" />
+            </form>
+          );
+        }
+      }
+
+      ReactDOM.render(<Demo />, document.getElementById('test'));
+    </script>
+  </body>
+</html>
