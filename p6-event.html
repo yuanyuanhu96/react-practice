@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div id="test"></div>
+
+    <script
+      type="text/javascript"
+      src="assets/js/react.development.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="assets/js/react-dom.development.js"
+    ></script>
+    <script type="text/javascript" src="assets/js/babel.min.js"></script>
+    <script type="text/babel">
+      class Demo extends React.Component {
+        // The event can be passed
+        // When we can use event.target, don't use ref
+        handleBlur = (event) => {
+          alert(event.target.value);
+        };
+
+        render() {
+          return (
+            <div>
+              <input
+                onBlur={this.handleBlur}
+                type="text"
+                placeholder="Say Something"
+              />
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(<Demo />, document.getElementById('test'));
+    </script>
+  </body>
+</html>
