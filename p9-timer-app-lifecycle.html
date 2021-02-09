@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="test"></div>
+    <script
+      type="text/javascript"
+      src="assets/js/react.development.js"
+    ></script>
+
+    <script
+      type="text/javascript"
+      src="assets/js/react-dom.development.js"
+    ></script>
+
+    <script type="text/javascript" src="assets/js/babel.min.js"></script>
+
+    <script type="text/babel">
+      class Timer extends React.Component {
+        state = { currentTime: 0, idList: [], timeList: [], historyItem: [] };
+
+        //这一堆读取state和setState十分混乱，并且有state只读的问题。应该先读后计算再set
+        addRecord = () => {
+          //read idList & timeList from state
+          const { idList, timeList } = this.state;
+
+          //????here I didn't use setState, but changed the array directly? State是只读的？
+          timeList.push(this.state.currentTime);
+          idList.push(idList.length + 1);
+
+          // create  historyItem from time and index
+          const historyItem = timeList.map((time, index) => (
+            <li key={index}>
+              No.{index + 1}: {time} seconds
+            </li>
+          ));
+
+          // update the  historyItem use setState api
+          this.setState({ historyItem: historyItem });
+        };
+
+        //setState to initial state
+        eraseAll = () => {
+          this.setState({
+            currentTime: 0,
+            idList: [],
+            timeList: [],
+            historyItem: [],
+          });
+        };
+
+        // delete/unmound this component from the UI, while clear timer (react will do that)
+        deleteRecord = () => {
+          ReactDOM.unmountComponentAtNode(document.getElementById('test'));
+        };
+
+        componentDidMount() {
+          this.timer = setInterval(() => {
+            const { currentTime } = this.state;
+            this.setState({ currentTime: currentTime + 1 });
+          }, 1000);
+        }
+
+        componentWillUnmount() {
+          clearInterval(this.timer);
+        }
+
+        render() {
+          console.log(this.state);
+          const { currentTime, historyItem } = this.state;
+
+          return (
+            <div style={{ padding: '10px 10px', background: '#eee' }}>
+              <h1>{currentTime} second</h1>
+              <span></span>{' '}
+              <input
+                onClick={this.addRecord}
+                type="button"
+                value="Add record"
+              />
+              <input onClick={this.eraseAll} type="button" value="Restart" />
+              <input onClick={this.deleteRecord} type="button" value="Delete" />
+              <h4>Records:</h4>
+              <ul>{historyItem}</ul>
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(<Timer />, document.getElementById('test'));
+    </script>
+  </body>
+</html>
